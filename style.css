@@ -1,0 +1,126 @@
+:root{
+    --bg-gradient: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    --card-bg: rgba(255,255,255,0.08);
+    --text-color: white;
+    --button-bg: #00c6ff;
+    --button-hover: #00f2fe;
+}
+
+/* THEME 1 (Default Ocean) */
+.theme-ocean{
+    --bg-gradient: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    --card-bg: rgba(255,255,255,0.08);
+    --text-color: white;
+    --button-bg: #00c6ff;
+    --button-hover: #00f2fe;
+}
+
+/* THEME 2 (Light Professional) */
+.theme-light{
+    --bg-gradient: linear-gradient(135deg,#f5f7fa,#c3cfe2);
+    --card-bg: rgba(255,255,255,0.9);
+    --text-color: #222;
+    --button-bg: #007bff;
+    --button-hover: #0056b3;
+}
+
+/* THEME 3 (Midnight Neon) */
+.theme-neon{
+    --bg-gradient: linear-gradient(135deg,#000428,#004e92);
+    --card-bg: rgba(0,0,0,0.6);
+    --text-color: #00ffff;
+    --button-bg: #ff00ff;
+    --button-hover: #ff66ff;
+}
+
+body{
+    margin:0;
+    font-family:Segoe UI, sans-serif;
+    background:var(--bg-gradient);
+    color:var(--text-color);
+    transition:0.4s;
+}
+
+.container{
+    width:95%;
+    margin:auto;
+    padding:20px;
+}
+
+h1{
+    text-align:center;
+}
+
+.card{
+    background:var(--card-bg);
+    backdrop-filter:blur(12px);
+    border-radius:15px;
+    padding:20px;
+    margin-bottom:20px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.3);
+    transition:0.4s;
+}
+
+input,select,button{
+    padding:8px 10px;
+    border:none;
+    border-radius:8px;
+    margin:5px;
+}
+
+button{
+    cursor:pointer;
+    background:var(--button-bg);
+    color:black;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+button:hover{
+    background:var(--button-hover);
+    transform:scale(1.05);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+th,td{
+    border:1px solid rgba(255,255,255,0.2);
+    text-align:center;
+    padding:5px;
+}
+
+th{
+    background:rgba(0,0,0,0.3);
+}
+
+select{
+    width:100%;
+}
+
+/* Shift colors */
+.M{background:#3498db;color:white;}
+.N{background:#000;color:white;}
+.OFF{background:yellow;color:black;}
+.LB{background:#5dade2;color:black;}
+.CR{background:#2ecc71;color:black;}
+
+#savedContainer{
+    max-height:600px;
+    overflow-y:auto;
+}
+
+.savedCard{
+    background:rgba(255,255,255,0.1);
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:15px;
+}
+
+.smallBtn{
+    font-size:12px;
+    padding:5px 8px;
+}

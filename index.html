@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Professional Shift Manager</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Excel Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Weekly Shift Manager</h1>
+<div style="text-align:right;">
+    <button id="themeBtn" onclick="toggleTheme()" style="padding:5px 10px;font-size:12px;">
+        🎨 Theme
+    </button>
+</div>
+
+    <div class="card">
+        <h3>Staff Management (Password Protected)</h3>
+        <input type="text" id="newStaff" placeholder="Enter staff name">
+        <button onclick="addStaff()">Add Staff</button>
+    </div>
+
+    <div class="card">
+        <h3>Create Weekly Schedule</h3>
+        <label>Week Start Date:</label>
+        <input type="date" id="weekDate">
+        <button onclick="saveSchedule()">Save Schedule</button>
+
+        <table id="shiftTable"></table>
+    </div>
+
+    <div class="card">
+        <h3>Saved Schedules</h3>
+        <div id="savedContainer"></div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
