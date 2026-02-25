@@ -23,16 +23,35 @@
     --button-bg: #007bff;
     --button-hover: #0056b3;
 }
-
-/* THEME 3 (Midnight Neon) */
+/* THEME 3 (Royal Dark) */
 .theme-neon{
-    --bg-gradient: linear-gradient(135deg,#000428,#004e92);
-    --card-bg: rgba(0,0,0,0.6);
-    --text-color: #00ffff;
-    --button-bg: #ff00ff;
-    --button-hover: #ff66ff;
+    --bg-gradient: linear-gradient(135deg,#1a0026,#32004b,#4b006e);
+    --card-bg: rgba(255,255,255,0.07);
+    --text-color: #f5f5f5;
+    --button-bg: #d4af37;      /* gold */
+    --button-hover: #f1c40f;   /* lighter gold */
+}
+.editableName{
+    cursor: pointer;
+    position: relative;
 }
 
+.editableName:hover{
+    color: var(--button-bg);
+}
+
+.editableName::before{
+    content: "Edit";
+    position: absolute;
+    right: 5px;
+    font-size: 11px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.editableName:hover::before{
+    opacity: 0.7;
+}
 body{
     margin:0;
     font-family:Segoe UI, sans-serif;
@@ -102,11 +121,15 @@ select{
 }
 
 /* Shift colors */
+/* Shift colors */
 .M{background:#3498db;color:white;}
 .N{background:#000;color:white;}
 .OFF{background:yellow;color:black;}
-.LB{background:#5dade2;color:black;}
-.CR{background:#2ecc71;color:black;}
+
+/* ADD THESE 👇 */
+.MN{background:purple;color:white;}
+.VAC{background:orange;color:white;}
+.SICK{background:#9b59b6;color:white;}
 
 #savedContainer{
     max-height:600px;
@@ -124,3 +147,26 @@ select{
     font-size:12px;
     padding:5px 8px;
 }
+
+
+.appFooter{
+    margin-top:40px;
+    padding:15px;
+    text-align:center;
+    font-size:14px;
+    opacity:0.7;
+    color:var(--text-color);
+    border-top:1px solid rgba(255,255,255,0.1);
+}
+
+.appFooter:hover{
+    opacity:1;
+    transition:0.3s;
+}
+
+.M{background:#3498db;color:white;}
+.N{background:#000;color:white;}
+.OFF{background:yellow;color:black;}
+.MN{background:purple;color:white;}
+.VAC{background:orange;color:white;}
+.SICK{background:#9b59b6;color:white;}

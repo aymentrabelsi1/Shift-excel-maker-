@@ -1,13 +1,13 @@
 const PASSWORD="198700";
 const days=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
-const shiftOptions=["","M","N","M/N","OFF","L.B","C.R"];
+const shiftOptions=["","M","N","M/N","OFF","Vacation","Sick Leave"];
 
 let editingId=null;
 
 function getStaff(){
     let staff=JSON.parse(localStorage.getItem("staffList"));
     if(!staff){
-        staff=["Ramesh","Chandra","Pratima","Sunil","Duane","Shambu","Ram Kc","Ratan Kami","Warren","Francois"];
+        staff=["user","user1","user2"];
         localStorage.setItem("staffList",JSON.stringify(staff));
     }
     return staff;
@@ -17,13 +17,16 @@ function renderTable(){
     const staff=getStaff();
     let table=document.getElementById("shiftTable");
     table.innerHTML="";
+
     let header="<tr><th>Staff</th>";
     days.forEach(d=>header+=`<th>${d}</th>`);
     header+="<th>Remove</th></tr>";
     table.innerHTML+=header;
 
     staff.forEach(name=>{
-        let row=`<tr><td>${name}</td>`;
+        let row=`<tr>
+        <td class="editableName" onclick="editStaffName(this,'${name}')">${name}</td>`;
+
         days.forEach(day=>{
             row+=`<td>
             <select onchange="colorShift(this)">
@@ -31,21 +34,46 @@ function renderTable(){
             </select>
             </td>`;
         });
+
         row+=`<td><button class="smallBtn" onclick="removeStaff('${name}')">X</button></td></tr>`;
         table.innerHTML+=row;
     });
 }
 
-function colorShift(select){
-    select.className="";
-    if(select.value==="M") select.classList.add("M");
-    if(select.value==="N") select.classList.add("N");
-    if(select.value==="OFF") select.classList.add("OFF");
-    if(select.value==="L.B") select.classList.add("LB");
-    if(select.value==="C.R") select.classList.add("CR");
-    if(select.value==="M/N") select.style.background="purple";
+/* edit staff name */
+function editStaffName(cell, oldName){
+    let pass=prompt("Enter password:");
+    if(pass!==PASSWORD) return alert("Wrong password");
+
+    let newName=prompt("Edit Staff Name:", oldName);
+    if(!newName || newName.trim()==="") return;
+
+    let staff=getStaff();
+    let index=staff.indexOf(oldName);
+    if(index>-1){
+        staff[index]=newName.trim();
+        localStorage.setItem("staffList",JSON.stringify(staff));
+    }
+
+    cell.innerText=newName.trim();
 }
 
+/* shift color logic */
+function colorShift(select){
+    // remove all previous shift classes
+    select.classList.remove("M","N","OFF","MN","VAC","SICK");
+
+    switch(select.value){
+        case "M": select.classList.add("M"); break;
+        case "N": select.classList.add("N"); break;
+        case "OFF": select.classList.add("OFF"); break;
+        case "M/N": select.classList.add("MN"); break;
+        case "Vacation": select.classList.add("VAC"); break;
+        case "Sick Leave": select.classList.add("SICK"); break;
+    }
+}
+
+/* add new staff */
 function addStaff(){
     let pass=prompt("Enter password:");
     if(pass!==PASSWORD) return alert("Wrong password");
@@ -56,11 +84,11 @@ function addStaff(){
     let staff=getStaff();
     staff.push(name);
     localStorage.setItem("staffList",JSON.stringify(staff));
-
     document.getElementById("newStaff").value="";
     renderTable();
 }
 
+/* remove staff */
 function removeStaff(name){
     let pass=prompt("Enter password:");
     if(pass!==PASSWORD) return alert("Wrong password");
@@ -70,6 +98,7 @@ function removeStaff(name){
     renderTable();
 }
 
+/* save schedule */
 function saveSchedule(){
     let week=document.getElementById("weekDate").value;
     if(!week) return alert("Select week date");
@@ -82,8 +111,9 @@ function saveSchedule(){
         let name=rows[i].cells[0].innerText;
         data[name]={};
         for(let j=0;j<days.length;j++){
-            let value=rows[i].cells[j+1].querySelector("select").value;
-            data[name][days[j]]=value;
+            let select = rows[i].cells[j+1].querySelector("select");
+            data[name][days[j]]=select.value;
+            colorShift(select); // update color in case it's edited
         }
     }
 
@@ -106,6 +136,7 @@ function saveSchedule(){
     alert("Saved Successfully");
 }
 
+/* render saved schedules */
 function renderSaved(){
     let container=document.getElementById("savedContainer");
     container.innerHTML="";
@@ -138,6 +169,7 @@ function renderSaved(){
     });
 }
 
+/* edit schedule */
 function editSchedule(id){
     let schedules=JSON.parse(localStorage.getItem("schedules"))||[];
     let s=schedules.find(x=>x.id===id);
@@ -152,11 +184,14 @@ function editSchedule(id){
     for(let i=1;i<rows.length;i++){
         let name=rows[i].cells[0].innerText;
         days.forEach((day,index)=>{
-            rows[i].cells[index+1].querySelector("select").value=s.data[name][day];
+            let select = rows[i].cells[index+1].querySelector("select");
+            select.value = s.data[name][day];
+            colorShift(select); // apply proper color
         });
     }
 }
 
+/* delete schedule */
 function deleteSchedule(id){
     let pass=prompt("Enter password:");
     if(pass!==PASSWORD) return alert("Wrong password");
@@ -167,6 +202,7 @@ function deleteSchedule(id){
     renderSaved();
 }
 
+/* export excel */
 function exportExcel(id){
     let schedules=JSON.parse(localStorage.getItem("schedules"))||[];
     let s=schedules.find(x=>x.id===id);
@@ -183,8 +219,7 @@ function exportExcel(id){
     XLSX.writeFile(wb,`Shift_Week_${s.week}.xlsx`);
 }
 
-renderTable();
-renderSaved();
+/* themes */
 let themes=["ocean","light","neon"];
 let currentThemeIndex=0;
 
@@ -203,9 +238,9 @@ function loadTheme(){
     currentThemeIndex=themes.indexOf(savedTheme);
     document.body.classList.add("theme-"+savedTheme);
 }
-
 loadTheme();
 
+/* current week date */
 function setCurrentWeek(){
     const today=new Date();
     const day=today.getDay(); // 0=Sun
@@ -215,3 +250,25 @@ function setCurrentWeek(){
     document.getElementById("weekDate").value=iso;
 }
 setCurrentWeek();
+
+/* reset staff */
+function resetStaff(){
+    let pass=prompt("Enter password:");
+    if(pass!==PASSWORD) return alert("Wrong password");
+
+    localStorage.removeItem("staffList");
+    renderTable();
+}
+
+renderTable();
+renderSaved();
+function deleteAllSchedules(){
+    let pass = prompt("Enter password to delete all schedules:");
+    if(pass !== PASSWORD) return alert("Wrong password");
+
+    if(confirm("Are you sure you want to delete ALL saved schedules?")) {
+        localStorage.removeItem("schedules");
+        renderSaved();
+        alert("All saved schedules have been deleted!");
+    }
+}

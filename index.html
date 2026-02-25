@@ -31,7 +31,7 @@
         <label>Week Start Date:</label>
         <input type="date" id="weekDate">
         <button onclick="saveSchedule()">Save Schedule</button>
-
+<button onclick="resetStaff()">Reset </button>
         <table id="shiftTable"></table>
     </div>
 
@@ -39,8 +39,13 @@
         <h3>Saved Schedules</h3>
         <div id="savedContainer"></div>
     </div>
+    <div style="text-align:center; margin-top:15px;">
+    <button class="smallBtn" onclick="deleteAllSchedules()">Delete All Saved Schedules</button>
 </div>
-
+</div>
+<footer class="appFooter">
+    © 2026 Shift Management System | Developed by MR.ROBOT M4-AYMEN 
+</footer>
 <script src="script.js"></script>
 </body>
 </html>
